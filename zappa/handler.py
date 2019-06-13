@@ -338,6 +338,8 @@ class LambdaHandler(object):
         Get the associated function to execute for a cognito trigger
         """
         print("get_function_for_cognito_trigger", self.settings.COGNITO_TRIGGER_MAPPING, trigger, self.settings.COGNITO_TRIGGER_MAPPING.get(trigger))
+        if trigger.startswith('TokenGeneration'):
+            trigger = 'Pre' + trigger
         return self.settings.COGNITO_TRIGGER_MAPPING.get(trigger)
 
     def handler(self, event, context):
