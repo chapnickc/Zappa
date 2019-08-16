@@ -2058,6 +2058,12 @@ class Zappa(object):
                 description_kwargs[key] = value
         if 'LambdaConfig' not in description_kwargs:
             description_kwargs['LambdaConfig'] = LambdaConfig
+
+        # added by CC 8/16/19 using https://github.com/Miserlou/Zappa/issues/1879
+        if description_kwargs.get('AdminCreateUserConfig'):
+            if description_kwargs.get('AdminCreateUserConfig').get('UnusedAccountValidityDays'):
+                description_kwargs.get('AdminCreateUserConfig').pop('UnusedAccountValidityDays')
+
         result = self.cognito_client.update_user_pool(UserPoolId=user_pool, **description_kwargs)
         if result['ResponseMetadata']['HTTPStatusCode'] != 200:
             print("Cognito:  Failed to update user pool", result)
